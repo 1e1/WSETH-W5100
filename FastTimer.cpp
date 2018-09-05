@@ -41,6 +41,18 @@ void FastTimer::begin()
 const uint8_t FastTimer::update()
 {
   const uint8_t previousTime  = FastTimer::_embedTime;
+  /** located in macros.h, config.h define EMBEDTIME as:
+  #define EMBEDTIME_1s_4m    ((uint8_t) (millis() >> 10))     # (2^10)/1024=1  |  1*(2^8) :   256s =  4m16s
+  #define EMBEDTIME_2s_8m    ((uint8_t) (millis() >> 11))     # (2^11)/1024=2  |  2*(2^8) :   512s =  8m32s
+  #define EMBEDTIME_4s_15m   ((uint8_t) (millis() >> 12))     # (2^12)/1024=4  |  4*(2^8) :  1024s =  17m04s
+  #define EMBEDTIME_8s_30m   ((uint8_t) (millis() >> 13))     # (2^13)/1024=8  |  8*(2^8) :  2048s =  34m08s
+  #define EMBEDTIME_16s_1h   ((uint8_t) (millis() >> 14))     # (2^14)/1024=16 | 16*(2^8) :  4096s = 1h08m16s
+  #define EMBEDTIME_32s_2h   ((uint8_t) (millis() >> 15))     # (2^15)/1024=32 | 32*(2^8) :  8192s = 2h16m32s
+  #define EMBEDTIME_64s_4h   ((uint8_t) (millis() >> 16))     # (2^16)/1024=64 | 64*(2^8) : 16384s = 4h33m04s
+  #define EMBEDTIME_1s_18h   ((unsigned int) (millis() >> 10))# (2^10)/1024=1  | 1*(2^16) :  65536s =  18h12m16s
+  #define EMBEDTIME_2s_36h   ((unsigned int) (millis() >> 11))# (2^11)/1024=2  | 2*(2^16) : 131072s =  1d12h24m32s
+  #define EMBEDTIME_4s_3d    ((unsigned int) (millis() >> 12))# (2^12)/1024=4  | 4*(2^16) : 262144s =  3d00h49m04s
+  **/
   FastTimer::_embedTime      = EMBEDTIME;
   return FastTimer::_embedTime ^ previousTime;
 }
